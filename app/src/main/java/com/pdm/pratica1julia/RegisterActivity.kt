@@ -35,14 +35,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pdm.pratica1julia.ui.theme.Pratica1JuliaTheme
 
-class LoginActivity : ComponentActivity() {
+class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             Pratica1JuliaTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginPage(modifier = Modifier.padding(innerPadding))
+                    RegisterPage(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -50,58 +50,83 @@ class LoginActivity : ComponentActivity() {
 }
 @Preview(showBackground = true)
 @Composable
-fun LoginPage(modifier: Modifier = Modifier) {
+fun RegisterPage(modifier: Modifier = Modifier) {
+    var nome by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    var repeatPassword by rememberSaveable { mutableStateOf("") }
+
     val activity = LocalActivity.current as Activity
+
+    // Condição para habilitar o botão
+    val isFormValid = nome.isNotEmpty() &&
+            email.isNotEmpty() &&
+            password.isNotEmpty() &&
+            repeatPassword.isNotEmpty() &&
+            password == repeatPassword
+
     Column(
-        modifier = modifier.padding(16.dp).fillMaxSize(),
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = CenterHorizontally
     ) {
         Text(
-            text = "Bem-vindo/a!",
+            text = "Registro",
             fontSize = 24.sp
         )
-        Spacer(modifier = modifier.size(16.dp))
+        Spacer(modifier = Modifier.size(24.dp))
+        OutlinedTextField(
+            value = nome,
+            label = { Text("Digite seu nome") },
+            modifier = Modifier.fillMaxWidth(0.9f),
+            onValueChange = { nome = it }
+        )
+        Spacer(modifier = Modifier.size(16.dp))
         OutlinedTextField(
             value = email,
-            label = { Text(text = "Digite seu e-mail") },
-            modifier = modifier.fillMaxWidth(fraction = 0.9f),
+            label = { Text("Digite seu e-mail") },
+            modifier = Modifier.fillMaxWidth(0.9f),
             onValueChange = { email = it }
         )
-        Spacer(modifier = modifier.size(16.dp))
+        Spacer(modifier = Modifier.size(16.dp))
         OutlinedTextField(
             value = password,
-            label = { Text(text = "Digite sua senha") },
-            modifier = modifier.fillMaxWidth(fraction = 0.9f),
+            label = { Text("Digite sua senha") },
+            modifier = Modifier.fillMaxWidth(0.9f),
             onValueChange = { password = it },
             visualTransformation = PasswordVisualTransformation()
         )
-        Spacer(modifier = modifier.size(24.dp))
-        Row(modifier = modifier) {
-            Button( onClick = {
-
-                Toast.makeText(activity, "Login OK!", Toast.LENGTH_LONG).show()
-                activity.startActivity(
-                    Intent(activity, MainActivity::class.java).setFlags(
-                        FLAG_ACTIVITY_SINGLE_TOP
-                    )
-                )
-            }, enabled = email.isNotEmpty() && password.isNotEmpty()) {
-                Text("Login")
-            }
+        Spacer(modifier = Modifier.size(16.dp))
+        OutlinedTextField(
+            value = repeatPassword,
+            label = { Text("Digite a senha novamente") },
+            modifier = Modifier.fillMaxWidth(0.9f),
+            onValueChange = { repeatPassword = it },
+            visualTransformation = PasswordVisualTransformation()
+        )
+        Spacer(modifier = Modifier.size(24.dp))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
-                onClick = { email = ""; password = "" }
+                onClick = {
+                    Toast.makeText(activity, "Registro realizado com sucesso!", Toast.LENGTH_LONG).show()
+                    activity.finish()
+                },
+                enabled = isFormValid
+            ) {
+                Text("Registrar")
+            }
+
+            Button(
+                onClick = {
+                    nome = ""
+                    email = ""
+                    password = ""
+                    repeatPassword = ""
+                }
             ) {
                 Text("Limpar")
-            }
-            Button(
-                onClick = { activity.startActivity(
-                    Intent(activity, RegisterActivity::class.java)
-                ) }
-            ) {
-                Text("Criar Conta")
             }
         }
     }
