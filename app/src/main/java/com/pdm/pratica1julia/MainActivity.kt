@@ -1,33 +1,17 @@
 package com.pdm.pratica1julia
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pdm.pratica1julia.ui.theme.Pratica1JuliaTheme
@@ -45,15 +29,19 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+@SuppressLint("ContextCastToActivity")
 @Composable
 fun HomePage(modifier: Modifier = Modifier) {
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    val activity = LocalActivity.current as Activity
+    // 🧩 Pegamos o contexto e transformamos em Activity
+    val activity = (LocalContext.current as? Activity)
+
     Column(
-        modifier = modifier.padding(16.dp).fillMaxSize(),
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Bem-vindo/a!",
@@ -61,9 +49,9 @@ fun HomePage(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.size(24.dp))
         Button(
-            onClick = { activity.finish() }, modifier = Modifier.padding(10.dp)
-        )
-        {
+            onClick = { activity?.finish() }, // ✅ Agora funciona
+            modifier = Modifier.padding(10.dp)
+        ) {
             Text(text = "SAIR")
         }
     }
