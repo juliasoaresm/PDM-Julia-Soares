@@ -26,10 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pdm.pratica1julia.City
 import androidx.compose.foundation.lazy.items
+import com.pdm.pratica1julia.MainViewModel
 
 @Composable
-fun ListPage(modifier: Modifier = Modifier) {
-    val cityList = remember { getCities().toMutableStateList() }
+fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
+    val cityList = viewModel.cities
     val activity = LocalActivity.current as Activity // Para os Toasts
     LazyColumn(
         modifier = modifier
@@ -38,30 +39,28 @@ fun ListPage(modifier: Modifier = Modifier) {
     ) {
         items(cityList, key = { it.name }) { city ->
             CityItem(city = city, onClose = {
+                viewModel.remove(city)
                 Toast.makeText(activity, "Cidade Fechada!", Toast.LENGTH_LONG).show()
             }, onClick = {
                 Toast.makeText(activity, "Cidade Aberta!", Toast.LENGTH_LONG).show()
             })
         }
     }
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.Magenta)
-            .wrapContentSize(Alignment.Center)
-    ) {
-        Text(
-            text = "Favoritas",
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = 20.sp
-        )
-    }
-}
-private fun getCities() = List(20) { i ->
-    City(name = "Cida de $i", weather = "Carregando clima...")
+//    Column(
+//        modifier = modifier
+//            .fillMaxSize()
+//            .background(Color.Magenta)
+//            .wrapContentSize(Alignment.Center)
+//    ) {
+//        Text(
+//            text = "Favoritas",
+//            fontWeight = FontWeight.Bold,
+//            color = Color.White,
+//            modifier = modifier.align(Alignment.CenterHorizontally),
+//            textAlign = TextAlign.Center,
+//            fontSize = 20.sp
+//        )
+//    }
 }
 
 @Composable
