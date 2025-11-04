@@ -12,8 +12,13 @@ import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.pdm.pratica1julia.ui.CityDialog
 import com.pdm.pratica1julia.ui.nav.*
 import com.pdm.pratica1julia.ui.theme.Pratica1JuliaTheme
 
@@ -24,9 +29,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+            var showDialog by remember { mutableStateOf(false) }
             val viewModel : MainViewModel by viewModels()
             val navController = androidx.navigation.compose.rememberNavController()
             Pratica1JuliaTheme {
+                if (showDialog) CityDialog(
+                    onDismiss = { showDialog = false },
+                    onConfirm = { city ->
+                        if (city.isNotBlank()) viewModel.add(city)
+                        showDialog = false
+                    })
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -50,7 +62,7 @@ class MainActivity : ComponentActivity() {
                         BottomNavBar(navController = navController, items)
                     },
                     floatingActionButton = {
-                        FloatingActionButton(onClick = { /* ação */ }) {
+                        FloatingActionButton(onClick = {showDialog = true}) {
                             Icon(Icons.Default.Add, contentDescription = "Adicionar")
                         }
                     }
