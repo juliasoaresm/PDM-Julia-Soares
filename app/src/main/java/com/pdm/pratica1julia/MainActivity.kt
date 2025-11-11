@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val navController = androidx.navigation.compose.rememberNavController() // 👉 precisa vir antes
+            val navController = androidx.navigation.compose.rememberNavController()
             val currentRoute = navController.currentBackStackEntryAsState()
             val showButton = currentRoute.value?.destination?.hasRoute(Route.List::class) == true
             val launcher = rememberLauncherForActivityResult(
