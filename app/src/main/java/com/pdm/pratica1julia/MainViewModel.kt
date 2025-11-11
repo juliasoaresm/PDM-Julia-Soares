@@ -2,8 +2,12 @@ package com.pdm.pratica1julia
 
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.maps.model.LatLng
 
 class MainViewModel : ViewModel() {
+        fun add(name: String, location: LatLng? = null) {
+        _cities.add(City(name = name, location = location))
+        }
         private val _cities = getCities().toMutableStateList()
         val cities
             get() = _cities.toList()
