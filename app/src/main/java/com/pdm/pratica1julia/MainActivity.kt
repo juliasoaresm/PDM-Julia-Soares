@@ -25,7 +25,7 @@ import com.pdm.pratica1julia.ui.nav.*
 import com.pdm.pratica1julia.ui.theme.Pratica1JuliaTheme
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
-
+//julia 24/11/2025
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text("Bem-vindo/a!") },
+                            title = { Text("Bem-vinda!") },
                             actions = {
                                 IconButton(onClick = { finish() }) {
                                     Icon(
