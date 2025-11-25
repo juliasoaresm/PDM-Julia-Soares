@@ -25,6 +25,9 @@ import com.pdm.pratica1julia.ui.nav.*
 import com.pdm.pratica1julia.ui.theme.Pratica1JuliaTheme
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+
 //julia 24/11/2025
 
 class MainActivity : ComponentActivity() {
@@ -54,7 +57,8 @@ class MainActivity : ComponentActivity() {
                         TopAppBar(
                             title = { Text("Bem-vinda!") },
                             actions = {
-                                IconButton(onClick = { finish() }) {
+                                IconButton(onClick = { Firebase.auth.signOut()
+                                    finish() }) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                                         contentDescription = "Sair"

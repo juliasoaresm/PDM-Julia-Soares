@@ -33,6 +33,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.pdm.pratica1julia.ui.theme.Pratica1JuliaTheme
 
 class RegisterActivity : ComponentActivity() {
@@ -110,8 +112,15 @@ fun RegisterPage(modifier: Modifier = Modifier) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
                 onClick = {
-                    Toast.makeText(activity, "Registro realizado com sucesso!", Toast.LENGTH_LONG).show()
-                    activity.finish()
+                    Firebase.auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(activity) { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(activity, "Registro OK!", Toast.LENGTH_LONG).show()
+                                // NÃO usa finish() aqui, vamos remover no Passo 3 da Parte 3
+                            } else {
+                                Toast.makeText(activity, "Registro FALHOU!", Toast.LENGTH_LONG).show()
+                            }
+                        }
                 },
                 enabled = isFormValid
             ) {
