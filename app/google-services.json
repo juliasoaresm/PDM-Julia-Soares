@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "324922059773",
+    "project_id": "angular-unison-477910-e3",
+    "storage_bucket": "angular-unison-477910-e3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324922059773:android:34ddc9fee1f90a1e150794",
+        "android_client_info": {
+          "package_name": "com.pdm.pratica1julia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVsAOjXHxxKprprY8WO9In5AVbkyWyslw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
