@@ -24,9 +24,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pdm.pratica1julia.City
 import androidx.compose.foundation.lazy.items
 import com.pdm.pratica1julia.MainViewModel
+import com.pdm.pratica1julia.model.City
 
 @Composable
 fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {

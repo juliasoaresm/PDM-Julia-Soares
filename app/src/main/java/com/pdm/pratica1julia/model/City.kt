@@ -1,4 +1,4 @@
-package com.pdm.pratica1julia
+package com.pdm.pratica1julia.model
 
 import com.google.android.gms.maps.model.LatLng
 

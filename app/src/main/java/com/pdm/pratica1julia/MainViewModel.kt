@@ -1,10 +1,17 @@
 package com.pdm.pratica1julia
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
+import com.pdm.pratica1julia.model.City
+import com.pdm.pratica1julia.model.User
 
 class MainViewModel : ViewModel() {
+
+        private val _user = mutableStateOf<User?> (null)
+        val user : User?
+        get() = _user.value
 
         private val _cities = getCities().toMutableStateList()
         val cities
