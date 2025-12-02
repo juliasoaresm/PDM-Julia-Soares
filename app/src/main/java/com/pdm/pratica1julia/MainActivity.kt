@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pdm.pratica1julia.ui.CityDialog
 import com.pdm.pratica1julia.ui.nav.*
 import com.pdm.pratica1julia.ui.theme.Pratica1JuliaTheme
@@ -27,6 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.pdm.pratica1julia.db.fb.FBDatabase
 
 //julia 24/11/2025
 
@@ -37,6 +39,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+            val fbDB = remember { FBDatabase() }
+            val viewModel : MainViewModel = viewModel(
+                factory = MainViewModelFactory(fbDB)
+            )
             val navController = androidx.navigation.compose.rememberNavController()
             val currentRoute = navController.currentBackStackEntryAsState()
             val showButton = currentRoute.value?.destination?.hasRoute(Route.List::class) == true
@@ -44,7 +50,6 @@ class MainActivity : ComponentActivity() {
                 contract = ActivityResultContracts.RequestPermission(),
                 onResult = {})
             var showDialog by remember { mutableStateOf(false) }
-            val viewModel : MainViewModel by viewModels()
             Pratica1JuliaTheme {
                 if (showDialog) CityDialog(
                     onDismiss = { showDialog = false },
