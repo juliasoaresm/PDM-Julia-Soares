@@ -1,4 +1,5 @@
 @file:Suppress("DEPRECATION")
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -14,6 +15,11 @@ android {
     compileSdk = 36
 
     defaultConfig {
+        val keyFile = project.rootProject.file("local.properties")
+        val props = Properties()
+        props.load(keyFile.inputStream())
+        buildConfigField ("String", "WEATHER_API_KEY",
+            props.getProperty("WEATHER_API_KEY"))
         applicationId = "com.pdm.pratica1julia"
         minSdk = 27
         targetSdk = 36
@@ -40,6 +46,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
@@ -65,6 +72,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
 
+    implementation ("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation ("com.squareup.retrofit2:converter-gson:3.0.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
