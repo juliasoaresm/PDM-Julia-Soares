@@ -28,6 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.pdm.pratica1julia.api.WeatherService
 import com.pdm.pratica1julia.db.fb.FBDatabase
 
 //julia 24/11/2025
@@ -40,8 +41,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val fbDB = remember { FBDatabase() }
+            val weatherService = remember { WeatherService() }
             val viewModel : MainViewModel = viewModel(
-                factory = MainViewModelFactory(fbDB)
+                factory = MainViewModelFactory(fbDB, weatherService)
             )
             val navController = androidx.navigation.compose.rememberNavController()
             val currentRoute = navController.currentBackStackEntryAsState()
@@ -54,7 +56,7 @@ class MainActivity : ComponentActivity() {
                 if (showDialog) CityDialog(
                     onDismiss = { showDialog = false },
                     onConfirm = { city ->
-                        if (city.isNotBlank()) viewModel.add(city)
+                        if (city.isNotBlank()) viewModel.addCity(city)
                         showDialog = false
                     })
                 Scaffold(
