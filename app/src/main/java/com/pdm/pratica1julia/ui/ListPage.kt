@@ -16,12 +16,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.pdm.pratica1julia.MainViewModel
 import com.pdm.pratica1julia.model.City
 import com.pdm.pratica1julia.model.Weather
 import com.pdm.pratica1julia.ui.nav.Route
+import com.pdm.pratica1julia.R
 
 @Composable
 fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
@@ -72,9 +75,11 @@ fun CityItem(
             .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            Icons.Rounded.FavoriteBorder,
-            contentDescription = null
+        AsyncImage(
+            model = weather.imgUrl,
+            modifier = Modifier.size(75.dp),
+            error = painterResource(id = R.drawable.loading),
+            contentDescription = "Imagem"
         )
         Spacer(modifier = Modifier.size(12.dp))
         Column(modifier = modifier.weight(1f)) {
