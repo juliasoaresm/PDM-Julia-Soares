@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.pdm.pratica1julia.MainViewModel
 import com.pdm.pratica1julia.model.City
 import com.pdm.pratica1julia.model.Weather
+import com.pdm.pratica1julia.ui.nav.Route
 
 @Composable
 fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
@@ -36,18 +37,24 @@ fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
             CityItem(
                 city = city,
                 weather = viewModel.weather(city.name),
-                onClose = {
-                    viewModel.city = city.name
-                },
                 onClick = {
+                    viewModel.city = city.name
+                    viewModel.page = Route.Home
                     activity?.let {
                         Toast.makeText(it, "${city.name} Aberta!", Toast.LENGTH_LONG).show()
+                    }
+                },
+                onClose = {
+                    viewModel.remove(city)
+                    activity?.let {
+                        Toast.makeText(it, "${city.name} Fechada!", Toast.LENGTH_LONG).show()
                     }
                 }
             )
         }
     }
 }
+
 @Composable
 fun CityItem(
     city: City,
@@ -67,7 +74,7 @@ fun CityItem(
     ) {
         Icon(
             Icons.Rounded.FavoriteBorder,
-            contentDescription = null // Use null ou uma descrição real
+            contentDescription = null
         )
         Spacer(modifier = Modifier.size(12.dp))
         Column(modifier = modifier.weight(1f)) {

@@ -15,6 +15,7 @@ import com.pdm.pratica1julia.model.City
 import com.pdm.pratica1julia.model.Forecast
 import com.pdm.pratica1julia.model.User
 import com.pdm.pratica1julia.model.Weather
+import com.pdm.pratica1julia.ui.nav.Route
 
 class MainViewModel (private val db: FBDatabase, private val service : WeatherService) : ViewModel(), FBDatabase.Listener {
 
@@ -23,6 +24,11 @@ class MainViewModel (private val db: FBDatabase, private val service : WeatherSe
     var city: String?
         get() = _city.value
         set(tmp) { _city.value = tmp }
+
+    private var _page = mutableStateOf<Route>(Route.Home)
+    var page: Route
+        get() = _page.value
+        set(tmp) { _page.value = tmp }
 
     private val _cities = mutableStateMapOf<String, City>()
     val cities: List<City>
