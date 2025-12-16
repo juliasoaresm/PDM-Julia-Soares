@@ -9,13 +9,14 @@ class FBCity {
     var lng : Double? = null
     fun toCity(): City {
         val latlng = if (lat!=null&&lng!=null) LatLng(lat!!, lng!!) else null
-        return City(name!!, weather = null, location = latlng)
+        return City(name = name!!, location = latlng)
     }
 }
 fun City.toFBCity() : FBCity {
     val fbCity = FBCity()
     fbCity.name = this.name
-    fbCity.lat = this.location?.latitude ?: 0.0
-    fbCity.lng = this.location?.longitude ?: 0.0
+    // Se location for null, lat e lng devem ser salvos como null no FBCity
+    fbCity.lat = this.location?.latitude
+    fbCity.lng = this.location?.longitude
     return fbCity
 }

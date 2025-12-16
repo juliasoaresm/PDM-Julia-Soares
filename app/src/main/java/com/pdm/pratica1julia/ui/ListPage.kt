@@ -3,7 +3,6 @@ package com.pdm.pratica1julia.ui
 import android.app.Activity
 import android.widget.Toast
 import androidx.activity.compose.LocalActivity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,79 +14,74 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.lazy.items
 import com.pdm.pratica1julia.MainViewModel
 import com.pdm.pratica1julia.model.City
+import com.pdm.pratica1julia.model.Weather
 
 @Composable
 fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
     val cityList = viewModel.cities
-    val activity = LocalActivity.current as Activity // Para os Toasts
+    val activity = LocalActivity.current as? Activity
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .padding(8.dp)
     ) {
         items(cityList, key = { it.name }) { city ->
-            CityItem(city = city, onClose = {
-                viewModel.remove(city)
-                Toast.makeText(activity, "${city.name} Fechada!", Toast.LENGTH_LONG).show()
-            }, onClick = {
-                Toast.makeText(activity, "${city.name} Aberta!", Toast.LENGTH_LONG).show()
-            })
+            CityItem(
+                city = city,
+                weather = viewModel.weather(city.name),
+                onClose = {
+                    viewModel.remove(city)
+                    activity?.let {
+                        Toast.makeText(it, "${city.name} Fechada!", Toast.LENGTH_LONG).show()
+                    }
+                },
+                onClick = {
+                    activity?.let {
+                        Toast.makeText(it, "${city.name} Aberta!", Toast.LENGTH_LONG).show()
+                    }
+                }
+            )
         }
     }
-//    Column(
-//        modifier = modifier
-//            .fillMaxSize()
-//            .background(Color.Magenta)
-//            .wrapContentSize(Alignment.Center)
-//    ) {
-//        Text(
-//            text = "Favoritas",
-//            fontWeight = FontWeight.Bold,
-//            color = Color.White,
-//            modifier = modifier.align(Alignment.CenterHorizontally),
-//            textAlign = TextAlign.Center,
-//            fontSize = 20.sp
-//        )
-//    }
 }
-
 @Composable
 fun CityItem(
     city: City,
+    weather: Weather,
     onClick: () -> Unit,
     onClose: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val desc = if (weather == Weather.LOADING) "Carregando clima..." else weather.desc
+
     Row(
-        modifier = modifier.fillMaxWidth().padding(8.dp).clickable { onClick() },
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             Icons.Rounded.FavoriteBorder,
-            contentDescription = ""
+            contentDescription = null // Use null ou uma descrição real
         )
         Spacer(modifier = Modifier.size(12.dp))
         Column(modifier = modifier.weight(1f)) {
-            Text(modifier = Modifier,
+            Text(
                 text = city.name,
-                fontSize = 24.sp)
-            Text(modifier = Modifier,
-                text = city.weather?:"Carregando clima...",
-
-                fontSize = 16.sp)
-
+                fontSize = 24.sp
+            )
+            Text(
+                text = desc,
+                fontSize = 16.sp
+            )
         }
         IconButton(onClick = onClose) {
             Icon(Icons.Filled.Close, contentDescription = "Close")
