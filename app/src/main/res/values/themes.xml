@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<<<<<<< HEAD
+    <style name="Theme.WeatherApp" parent="android:Theme.Material.Light.NoActionBar" />
+=======
+    <style name="Theme.Pratica1Julia" parent="android:Theme.Material.Light.NoActionBar" />
+>>>>>>> 70cc4ce800e662a0ae26fe0d4cf491791b3dab30
+</resources>

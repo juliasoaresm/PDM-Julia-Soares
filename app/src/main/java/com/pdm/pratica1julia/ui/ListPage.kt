@@ -1,0 +1,99 @@
+package com.pdm.pratica1julia.ui
+
+import android.app.Activity
+import android.widget.Toast
+import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.pdm.pratica1julia.MainViewModel
+import com.pdm.pratica1julia.model.City
+import com.pdm.pratica1julia.model.Weather
+import com.pdm.pratica1julia.ui.nav.Route
+import com.pdm.pratica1julia.R
+
+@Composable
+fun ListPage(modifier: Modifier = Modifier, viewModel: MainViewModel) {
+    val cityList = viewModel.cities
+    val activity = LocalActivity.current as? Activity
+
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(8.dp)
+    ) {
+        items(cityList, key = { it.name }) { city ->
+            CityItem(
+                city = city,
+                weather = viewModel.weather(city.name),
+                onClick = {
+                    viewModel.city = city.name
+                    viewModel.page = Route.Home
+                    activity?.let {
+                        Toast.makeText(it, "${city.name} Aberta!", Toast.LENGTH_LONG).show()
+                    }
+                },
+                onClose = {
+                    viewModel.remove(city)
+                    activity?.let {
+                        Toast.makeText(it, "${city.name} Fechada!", Toast.LENGTH_LONG).show()
+                    }
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun CityItem(
+    city: City,
+    weather: Weather,
+    onClick: () -> Unit,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val desc = if (weather == Weather.LOADING) "Carregando clima..." else weather.desc
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            model = weather.imgUrl,
+            modifier = Modifier.size(75.dp),
+            error = painterResource(id = R.drawable.loading),
+            contentDescription = "Imagem"
+        )
+        Spacer(modifier = Modifier.size(12.dp))
+        Column(modifier = modifier.weight(1f)) {
+            Text(
+                text = city.name,
+                fontSize = 24.sp
+            )
+            Text(
+                text = desc,
+                fontSize = 16.sp
+            )
+        }
+        IconButton(onClick = onClose) {
+            Icon(Icons.Filled.Close, contentDescription = "Close")
+        }
+    }
+}

@@ -1,0 +1,45 @@
+{
+  "project_info": {
+<<<<<<< HEAD
+    "project_number": "298882178321",
+    "project_id": "weatherapp-477911",
+    "storage_bucket": "weatherapp-477911.firebasestorage.app"
+=======
+    "project_number": "324922059773",
+    "project_id": "angular-unison-477910-e3",
+    "storage_bucket": "angular-unison-477910-e3.firebasestorage.app"
+>>>>>>> 70cc4ce800e662a0ae26fe0d4cf491791b3dab30
+  },
+  "client": [
+    {
+      "client_info": {
+<<<<<<< HEAD
+        "mobilesdk_app_id": "1:298882178321:android:42be3045952fb195e480b0",
+        "android_client_info": {
+          "package_name": "com.example.weatherapp"
+=======
+        "mobilesdk_app_id": "1:324922059773:android:34ddc9fee1f90a1e150794",
+        "android_client_info": {
+          "package_name": "com.pdm.pratica1julia"
+>>>>>>> 70cc4ce800e662a0ae26fe0d4cf491791b3dab30
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+<<<<<<< HEAD
+          "current_key": "AIzaSyBvdmhNzMjlxoEdWqaFLfSYthJM5WScjM0"
+=======
+          "current_key": "AIzaSyDVsAOjXHxxKprprY8WO9In5AVbkyWyslw"
+>>>>>>> 70cc4ce800e662a0ae26fe0d4cf491791b3dab30
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
