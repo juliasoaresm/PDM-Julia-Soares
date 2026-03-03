@@ -83,6 +83,7 @@ class MainViewModel (private val repo: Repository, private val service : Weather
             }
         }
     }
+    //commit todas 10 11 12
 
     fun loadForecast(name: String) {
         if (_forecast.value[name] != null) return
